@@ -1,10 +1,15 @@
 import { ReactElement } from 'react'
 import PublicLayout from '../lib/components/layouts/PublicLayout'
 
+import Link from 'next/link';
+import { Button } from '@mantine/core';
+
 const Home = () => {
   return (
     <>
-      Home page
+      <Link href="/hello" passHref>
+        <Button component="a">Next link button</Button>
+      </Link>
     </>
   )
 }
