@@ -1,9 +1,10 @@
 import FlashCardInput from "@/components/flashcard/FlashCardInput";
+import { useSingleCategory } from "@/components/hooks/categoryHooks";
 import PublicLayout from "@/components/layouts/PublicLayout";
+import { ICategory } from "lib/types/category.type";
 import { useRouter } from "next/router";
-import CardsPage from "pages/cards";
 import { ReactElement } from "react";
-
+import { Text } from "@mantine/core";
 interface SingleCategoryPageProps {
   
 }
@@ -12,11 +13,18 @@ const SingleCategoryPage = ({}: SingleCategoryPageProps) => {
   const router = useRouter();
   const {slug} = router.query
   console.log(router.query)
+  const { status, data } = useSingleCategory(slug as string)
 
   return (
     <>
-      {slug}
-      <FlashCardInput />
+      <Text size="lg">{(data as ICategory)?.name}</Text>
+      <FlashCardInput categoryId={slug as string} />
+      {!!data && (data as ICategory).notes.map((note, idx) => {
+
+        return (
+          <p key={idx}>{JSON.stringify(note)}</p>
+        )
+      })}
     </>
   );
 }

@@ -1,5 +1,5 @@
-import { ICategory } from "./category.type";
+import { ISimplifiedCategory } from "./category.type";
 
 export interface IUser {
-  categories: ICategory[]
+  categories: ISimplifiedCategory[]
 }

@@ -3,7 +3,7 @@ import { useForm } from "@mantine/hooks";
 import { useState } from "react";
 
 interface FlashCardInputProps {
-  
+  categoryId: string
 }
 
 async function getKeywords<Str extends string>(anAnswer: Str) {
@@ -25,7 +25,7 @@ function tokenizeKeywords(unformatted: string) {
   return keywords.split(",")
 }
 
-const FlashCardInput = ({}: FlashCardInputProps) => {
+const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
   const [ opened, setOpened ] = useState(false)
 
   const form = useForm(
@@ -36,6 +36,14 @@ const FlashCardInput = ({}: FlashCardInputProps) => {
       }
     }
   );
+
+  const onSubmitHandler = async (values: {prompt: string, answer: string}) => {
+    try {
+      getKeywords(values.answer)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -58,7 +66,7 @@ const FlashCardInput = ({}: FlashCardInputProps) => {
             <h1>✨Create a Cue Card</h1>
             <Container style={{width: "100%"}}>
 
-            <form onSubmit={form.onSubmit((values) => getKeywords(values.answer))}>
+            <form onSubmit={form.onSubmit((values) => onSubmitHandler(values))}>
                 <Textarea
                     {...form.getInputProps('prompt')}
                     label="Prompt"

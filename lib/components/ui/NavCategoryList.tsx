@@ -1,4 +1,4 @@
-import { useCategories } from "../hooks/categoryHooks";
+import { useUserCategories } from "../hooks/categoryHooks";
 import { Container, Text } from '@mantine/core'
 import { IUser } from "lib/types/user.type";
 import { useRouter } from "next/router";
@@ -9,7 +9,7 @@ interface NavCategoryListProps {
 }
 
 const NavCategoryList = ({}: NavCategoryListProps) => {
-  const { data, status } = useCategories();
+  const { data, status } = useUserCategories();
 
   return (
     <>
