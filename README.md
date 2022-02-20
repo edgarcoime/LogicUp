@@ -16,8 +16,19 @@ One of the most impactful forms of studying is an increase in intensity. The shi
 
 ## Getting Started
 
-Sign up for an OpenAI API key: https://openai.com/api/
-First, run the development server:
+### OpenAI Logic 
+1. Sign up for and create an OpenAI API key: https://openai.com/api/
+2. Add an .env.local file to the LOGICUP main directory
+3. Add your API key to the file and save: NEXT_PUBLIC_OPENAI_KEY="your key goes here"
+
+### Prerequisites
+Yarn: npm install -g yarn
+
+To set up the dependencies:
+yarn install
+
+### Run Application
+Run the development server:
 
 ```bash
 npm run dev
