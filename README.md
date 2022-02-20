@@ -22,11 +22,13 @@ One of the most impactful forms of studying is an increase in intensity. The shi
 3. Add your API key to the file and save: NEXT_PUBLIC_OPENAI_KEY="your key goes here"
 
 ### Prerequisites
-Yarn: npm install -g yarn
+Yarn:
+```npm install -g yarn```
 
 To set up the dependencies:
+```
 yarn install
-
+```
 ### Run Application
 Run the development server:
 
