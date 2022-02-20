@@ -1,4 +1,4 @@
-import { Anchor, Button, Center, Container } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { ReactElement, useState } from "react";
 import FlashCard from "@/components/flashcard/FlashCard";
 import { signOut } from 'firebase/auth';

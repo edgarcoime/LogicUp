@@ -1,3 +1,4 @@
+import FlashCardInput from "@/components/flashcard/FlashCardInput";
 import PublicLayout from "@/components/layouts/PublicLayout";
 import { useRouter } from "next/router";
 import CardsPage from "pages/cards";
@@ -15,11 +16,12 @@ const SingleCategoryPage = ({}: SingleCategoryPageProps) => {
   return (
     <>
       {slug}
+      <FlashCardInput />
     </>
   );
 }
 
-CardsPage.getLayout = function getLayout(page: ReactElement) {
+SingleCategoryPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <PublicLayout>
       {page}
