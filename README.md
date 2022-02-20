@@ -9,10 +9,13 @@ One of the most impactful forms of studying is an increase in intensity. The shi
 ## Meet the Team
 - Jessica Hong
   - Jessica is our resident designer and backend developer. She created I-Cue's logo which features Hedgar the happy brain sprout and is the mastermind behind     our study aid's concept.Thanks to Jessica's planning for the color palette, wireframes and connecting of Firebase we are able to have an application which     we are proud to show and can be used by many users.
+  - https://www.linkedin.com/in/jeessicahong/
 - Edgar Coime
   - Edgar is our system architect and full-stack developer. He is the originator of the cue card and machine learning combination which is the heart of I-       Cue. Mr. Coime is our programming polymath who knows exactly what is missing from your line of code. He implemented Jessica's wireframes and UX flow.
+  - https://www.linkedin.com/in/edgarcoime/
 - Kat Olaguer
   - Kat is our full-stack developer. They designed the algorithm + logic behind I-Cue's answering system using a temperature of matched keywords of user       input and OpenAI's important phrases. She wrote these descriptions and loves her teammates.
+  - https://www.linkedin.com/in/katolaguer/
 
 ## Getting Started
 
@@ -39,3 +42,11 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Future Implementations
+1. Add syntactic analysis for nouns a as entities for improved context queries using Google Cloud natural language API 
+2. Check adverbs and root words in keywords
+3. Improve input filtering + find's algorithm speed
+4. Add edit and delete functionality to cards.
+5. Link AssemblyAI speech-to-text API with card answering logic. 
+6. Add a sign language answering functionality.
