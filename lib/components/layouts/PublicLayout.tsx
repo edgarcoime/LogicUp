@@ -10,10 +10,10 @@ import {
   Group,
   Avatar,
 } from "@mantine/core";
-import { signOut } from "firebase/auth";
 import { ReactNode, useState } from "react";
 import { useAuth, useUser } from "reactfire";
 import RouteGuard from "../guards/RouteGuard";
+import AddNewNav from "../ui/NavAddNewButton";
 import UserSectionNav from "../ui/UserSectionNav";
 import GlobalLayout from "./GlobalLayout";
 
@@ -36,9 +36,6 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 const IntermediateLayout = ({children}: {children: ReactNode}) => {
   const [opened, setOpened] = useState(false);
   const theme = useMantineTheme(); 
-  const auth = useAuth();
-  const user = useUser();
-  console.log(user);
 
   return (
     <div
@@ -61,7 +58,7 @@ const IntermediateLayout = ({children}: {children: ReactNode}) => {
             // viewport size > theme.breakpoints.lg – width is 400px
             width={{ sm: 300, lg: 400 }}
           >
-            <Navbar.Section><p>Top section</p></Navbar.Section>
+            <Navbar.Section><AddNewNav /></Navbar.Section>
             <Navbar.Section grow mt="lg"><p>mid section</p></Navbar.Section>
             <Navbar.Section><UserSectionNav /></Navbar.Section>
           </Navbar>
