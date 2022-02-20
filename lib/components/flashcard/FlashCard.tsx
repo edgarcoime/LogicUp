@@ -3,7 +3,7 @@ import { useState } from "react";
 import { checkOptions } from "reactfire";
 import ReactCardFlip from 'react-card-flip'
 import { INote } from "lib/types/card.type";
-import { IoKeypad, IoMicOutline, IoRefresh } from 'react-icons/io5';
+import { IoKeypad, IoMicOutline, IoRefresh, IoCheckmarkDone, IoAlert } from 'react-icons/io5';
 import { useInputState } from "@mantine/hooks";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "lib/firebase/init";
@@ -110,9 +110,20 @@ const FlashCard = ({
       {/* CONTENT */}
       <ReactCardFlip isFlipped={flip} flipDirection="vertical">
         <Card
-          shadow="sm"
+          shadow="md"
           padding="xl"
         >
+          <Group position="right">
+            {note.fullyUnderstand ? (
+              <ActionIcon size="md" radius="xl" variant="light" color="green">
+                <IoCheckmarkDone size={20} />
+              </ActionIcon>
+            ) : (
+              <ActionIcon size="md" radius="xl" variant="light" color="yellow">
+                <IoAlert size={20} />
+              </ActionIcon>
+            )}
+          </Group>
           <Text size="md">{note.prompt}</Text>
           <Space h="lg" />
           <Group position="apart">
@@ -129,9 +140,20 @@ const FlashCard = ({
         </Card>
 
         <Card
-          shadow="sm"
+          shadow="md"
           padding="xl"
         >
+          <Group position="right">
+            {note.fullyUnderstand ? (
+              <ActionIcon size="md" radius="xl" variant="light" color="green">
+                <IoCheckmarkDone size={20} />
+              </ActionIcon>
+            ) : (
+              <ActionIcon size="md" radius="xl" variant="light" color="yellow">
+                <IoAlert size={20} />
+              </ActionIcon>
+            )}
+          </Group>
           <Text size="md">{note.answer}</Text>
           <Space h="lg" />
           <Group position="right">

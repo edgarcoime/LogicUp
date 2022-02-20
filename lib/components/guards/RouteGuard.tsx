@@ -1,3 +1,4 @@
+import { __serverSide } from 'lib/constants';
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react';
@@ -13,7 +14,7 @@ const RouteGuard: NextPage<RouteGuard> = ({ children }) => {
 
   if (status === 'loading') return (<h1>Loading...</h1>)
 
-  if (!signInCheckResult.signedIn) {
+  if (!signInCheckResult.signedIn && !__serverSide) {
     router.push('/');
   }
 

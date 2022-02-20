@@ -1,5 +1,5 @@
 import { useUserCategories } from "../hooks/categoryHooks";
-import { Container, Text } from '@mantine/core'
+import { Button, Container, Text } from '@mantine/core'
 import { IUser } from "lib/types/user.type";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -15,7 +15,7 @@ const NavCategoryList = ({}: NavCategoryListProps) => {
 
   return (
     <>
-      <Text size="lg" align="center">
+      <Text size="xl" align="center">
         Categories
       </Text>
 
@@ -40,10 +40,13 @@ const CategoryList = ({ user }: CategoryListInterface) => {
             key={cat.id}
             size="md"
             padding="md"
+            sx={{
+              marginTop: "10px"
+            }}
           >
             <Link href={`/category/${cat.id}`} passHref>
               <Text
-                size="xl"
+                size="lg"
               >
                 {cat.name}
               </Text>
