@@ -82,6 +82,7 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
             prompt: values.prompt,
             answer: values.answer,
             keywords: keywords,
+            fullyUnderstand: false,
           }
         )
       })

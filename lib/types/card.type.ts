@@ -3,4 +3,5 @@ export interface INote {
   prompt: string;
   answer: string;
   keywords: string[];
+  fullyUnderstand: boolean;
 }

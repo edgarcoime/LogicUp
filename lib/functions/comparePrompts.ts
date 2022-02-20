@@ -33,8 +33,9 @@ export function getMatchedCount(keywords: string[], inputs: string[]) {
 }
 
 export function getMatchPercentage(keywords: string[], input: string) {
+    console.log(keywords)
+    console.log(input)
     console.log("getMatchPercentage - keywords from arg");
-    console.log(keywords);
     const inputList = tokenizeInput(input);
     console.log("getMatchPercentage - inputList: ");
     console.log(inputList);
