@@ -17,24 +17,34 @@ const CardInput = () => {
 
     return (
         <>
-            <Container>
-                <h1> ✨Create a Cue Card</h1>
+            <Container
+                size="xl"
+                style={{
+                display: "flex",
+                flexFlow: "column wrap",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100vh",
+                }}
+            >
+                <h1>✨Create a Cue Card</h1>
+                <Container style={{width: "100%"}}>
+
                 <form onSubmit={form.onSubmit((values) => console.log(values))}>
                     <Textarea
                         {...form.getInputProps('prompt')}
                         label="Prompt"
                         placeholder="Your cue card prompt"
-                        autosize
                         required
-                        minRows={5}
+                        minRows={3}
                     />
                     <Textarea 
                         {...form.getInputProps('response')}                        
                         label="Response"
                         placeholder="Your cue card response"
-                        autosize
                         required
-                        minRows={10}
+
+                        minRows={5}
                     />
                     <Center
                         style={{ padding: 15 }}
@@ -49,6 +59,8 @@ const CardInput = () => {
                         </Button>
                     </Center>
                 </form>
+                </Container>
+
             </Container>
         </>
     )
