@@ -1,10 +1,24 @@
 import { Container, Center, TextInput, PasswordInput, Button, Space, Text, Image, Group } from '@mantine/core';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useAuth } from 'reactfire';
+import { useInputState } from '@mantine/hooks';
 
 const Home = () => {
   const provider = new GoogleAuthProvider();
   const fbAuth = useAuth();
+
+  const [email, setEmail] = useInputState('');
+  const [password, setPassword] = useInputState('');
+
+  const signinThroughEmail = () => {
+    signInWithEmailAndPassword(fbAuth, email, password)
+    .then((result) => {
+      console.log(result.user);
+    })
+    .catch((error) => {
+      console.log("Wrong credentials! User does not exist");
+    });
+  }
 
   const signinThroughGoogle = () => {
     console.log("Signin through google");
@@ -46,6 +60,8 @@ const Home = () => {
             label="Email Address" 
             radius="sm" 
             size="xs" 
+            value={email}
+            onChange={setEmail}
             required
           />
           <Space h="xs" />
@@ -54,6 +70,8 @@ const Home = () => {
             label="Password" 
             radius="sm"
             size="xs"
+            value={password}
+            onChange={setPassword}
             required
           />
           <Space h="md" />
@@ -66,7 +84,8 @@ const Home = () => {
                 root: {
                   borderColor: theme.colors.blue[8]
                 }
-              })}>
+              })}
+              onClick={() => signinThroughEmail()}>
               Sign In
             </Button>
             <Button
