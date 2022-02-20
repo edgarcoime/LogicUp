@@ -112,6 +112,7 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
         saving: false,
         buttonText: "Add New Card"
       }));
+      form.reset();
     }
   }
 

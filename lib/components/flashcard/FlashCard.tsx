@@ -8,6 +8,7 @@ import { useInputState } from "@mantine/hooks";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "lib/firebase/init";
 import { getMatchPercentage } from "lib/functions/comparePrompts";
+import { useNotifications } from "@mantine/notifications";
 
 interface FlashCardProps {
   note: INote
@@ -19,6 +20,7 @@ const FlashCard = ({
   categoryId
 }: FlashCardProps) => {
   const [promptAnswer, setPromptAnswer] = useInputState('');
+  const notifications = useNotifications();
 
   const [flip, setFlip] = useState(false);
   const [opened, setOpened] = useState(false);
@@ -64,6 +66,35 @@ const FlashCard = ({
         });
       } else {
         throw new Error("Error occured. Could not find category.");
+      }
+
+      let id: string;
+      if (!note.fullyUnderstand) {
+        if (promptResult) {
+          id = notifications.showNotification({
+            color: "green",
+            onClose: () => console.log("unmounted"),
+            onOpen: () => console.log("mounted"),
+            title: "Wow! You are amazing!",
+            message: "Great job fully comprehending that topic! Here's a cake 🎂",
+          })
+        } else {
+          id = notifications.showNotification({
+            color: "yellow",
+            onClose: () => console.log("unmounted"),
+            onOpen: () => console.log("mounted"),
+            title: "So close! Keep trying.",
+            message: "Remember to never give up! I believe in you 😤",
+          })
+        }
+      } else {
+        id = notifications.showNotification({
+          color: "gray",
+          onClose: () => console.log("unmounted"),
+          onOpen: () => console.log("mounted"),
+          title: "Repetition is key.",
+          message: "You already have full comprehension of that topic! Try another one? 🤔",
+        })
       }
     } catch (error) {
       console.log(error);
