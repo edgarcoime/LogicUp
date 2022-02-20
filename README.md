@@ -44,7 +44,7 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Future Implementations
-1. Add syntactic analysis for nouns a as entities for improved context queries using Google Cloud natural language API 
+1. Add syntactic analysis for nouns as entities for improved context queries using Google Cloud natural language API 
 2. Check adverbs and root words in keywords
 3. Improve input filtering + find's algorithm speed
 4. Add edit and delete functionality to cards.
