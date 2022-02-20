@@ -24,14 +24,14 @@ export default async function getQuery (
         }
     ) {
     const completion = await openai.createCompletion("text-davinci-001", {
-        prompt: "Extract keywords from this text:" + req.body.answer,
+        prompt: "Extract keywords from this text, comma separated:" + req.body.answer,
         temperature: 0.2,
         max_tokens: 60,
         top_p: 1,
         frequency_penalty: 0.8,
         presence_penalty: 0
     })
-
+    
     res.status(200).json({ result: completion.data.choices })
     return completion.data.choices;
 }

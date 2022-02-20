@@ -3,6 +3,9 @@ import { Button } from "@mantine/core"
 import { Textarea } from "@mantine/core"
 import { Center } from "@mantine/core"
 import { useForm } from "@mantine/hooks"
+import { getMatchPercentage } from "lib/functions/comparePrompts"
+
+const testGuess = "It is the action of rapidly switching between processes.";
 
 async function getKeywords<Str extends string>(anAnswer: Str) {
     const response = await fetch("./api/openai", {
@@ -10,16 +13,17 @@ async function getKeywords<Str extends string>(anAnswer: Str) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({answer: anAnswer}),
+        body: JSON.stringify({answer: anAnswer.toLocaleLowerCase()}),
     });
     const data = await response.json();
-    const result = data.result[0]["text"]
-    console.log(result)
-    console.log(tokenizeKeywords(result));
+    const result = data.result[0]["text"];
+    const keywords = tokenizeKeywords(result);
+    console.log(getMatchPercentage(keywords, testGuess));
 }
 
 function tokenizeKeywords(unformatted: string) {
-    const keywords = unformatted.slice(2)
+    let keywords = unformatted.slice(2);
+    keywords = keywords.replace(/[&\/\\#+()$~%.'":*?<>{}]/g, "");
     return keywords.split(",")
 }
 
