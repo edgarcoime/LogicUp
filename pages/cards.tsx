@@ -7,6 +7,7 @@ import { useAuth } from "reactfire";
 
 const CardsPage = () => {
   const auth = useAuth();
+  console.log(process.env.NEXT_PUBLIC_ASSEMBLY_AI);
 
   return (
     <main

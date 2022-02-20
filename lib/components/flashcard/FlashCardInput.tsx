@@ -1,12 +1,16 @@
 import { Button, Center, Container, Group, Modal, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { db } from "lib/firebase/init";
 import { useState } from "react";
+import { useUser } from "reactfire";
+import {v4 as uuid} from "uuid";
 
 interface FlashCardInputProps {
   categoryId: string
 }
 
-async function getKeywords<Str extends string>(anAnswer: Str) {
+async function getKeywords<Str extends string>(anAnswer: Str): Promise<string[]> {
   const response = await fetch("/api/openai", {
       method: "POST",
       headers: {
@@ -18,6 +22,7 @@ async function getKeywords<Str extends string>(anAnswer: Str) {
   const result = data.result[0]["text"]
   console.log(result)
   console.log(tokenizeKeywords(result));
+  return tokenizeKeywords(result);
 }
 
 function tokenizeKeywords(unformatted: string) {
@@ -27,6 +32,12 @@ function tokenizeKeywords(unformatted: string) {
 
 const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
   const [ opened, setOpened ] = useState(false)
+  const [submitState, setSubmitState] = useState({
+    saving: false,
+    buttonText: "Submit"
+  })
+
+  const user = useUser();
 
   const form = useForm(
     {
@@ -38,10 +49,41 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
   );
 
   const onSubmitHandler = async (values: {prompt: string, answer: string}) => {
+
     try {
-      getKeywords(values.answer)
+      // Setup submission
+      setSubmitState(prev => ({
+        ...prev,
+        saving: true,
+        buttonText: "Saving Document..."
+      }));
+
+      let keywords = await getKeywords(values.answer)
+
+      const userId = user.data?.uid;
+      if (!userId) throw new Error("No UserId found");
+
+      const categoryRef = doc(db, "categories", categoryId);
+      const docSaveRes = await updateDoc(categoryRef, {
+        notes: arrayUnion(
+          {
+            prompt: values.prompt,
+            answer: values.answer,
+            keywords: keywords,
+          }
+        )
+      })
+
     } catch (error) {
       console.log(error);
+    } finally {
+      // Cleanup Submission
+      setSubmitState(prev => ({
+        ...prev,
+        saving: false,
+        buttonText: "Submit"
+      }))
+      setOpened(false);
     }
   }
 
