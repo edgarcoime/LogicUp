@@ -30,7 +30,7 @@ const SingleCategoryPage = ({}: SingleCategoryPageProps) => {
               md={6}
               xl={3}
             >
-              <FlashCard note={note} />
+              <FlashCard note={note} categoryId={slug as string} />
             </Grid.Col>
           )
         })}

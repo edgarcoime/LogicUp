@@ -7,6 +7,7 @@ import { IoKeypad, IoMicOutline, IoRefresh } from 'react-icons/io5';
 
 interface FlashCardProps {
   note: INote
+  categoryId: string
 }
 
 const FlashCard = ({

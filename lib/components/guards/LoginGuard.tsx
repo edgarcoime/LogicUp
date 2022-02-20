@@ -14,7 +14,7 @@ const LoginGuard: NextPage<LoginGuardProps> = ({ children }) => {
   if (status === 'loading') return (<h1>Loading...</h1>)
 
   if (signInCheckResult.signedIn) {
-    router.push('/cards');
+    router.push('/category');
   }
 
   return (<>{children}</>)
