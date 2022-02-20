@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import RouteGuard from "../guards/RouteGuard";
 import GlobalLayout from "./GlobalLayout";
 
 interface PublicLayoutProps {
@@ -8,18 +9,18 @@ interface PublicLayoutProps {
 export default function PublicLayout({ children }: PublicLayoutProps) {
   return (
     <GlobalLayout>
+      <RouteGuard>
+        <header>
+          HEADER
+        </header>
 
-      <header>
-        HEADER
-      </header>
+        {/* HOC */}
+        { children }
 
-      {/* HOC */}
-      { children }
-
-      <footer>
-        FOOTER
-      </footer>
-
+        <footer>
+          FOOTER
+        </footer>
+      </RouteGuard>
     </GlobalLayout>
   )
 }

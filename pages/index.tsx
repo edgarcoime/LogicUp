@@ -2,6 +2,8 @@ import { Container, Center, TextInput, PasswordInput, Button, Space, Text, Image
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useAuth } from 'reactfire';
 import { useInputState } from '@mantine/hooks';
+import { ReactElement } from 'react';
+import LoginLayout from '@/components/layouts/LoginLayout';
 
 const Home = () => {
   const provider = new GoogleAuthProvider();
@@ -116,6 +118,14 @@ const Home = () => {
         </Container>
       </Center>
     </div>
+  )
+}
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <LoginLayout>
+      {page}
+    </LoginLayout>
   )
 }
 
