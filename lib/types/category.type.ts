@@ -1,3 +1,5 @@
+import { INote } from "./card.type";
+
 export interface ISimplifiedCategory {
   id: string,
   name: string,
@@ -5,5 +7,5 @@ export interface ISimplifiedCategory {
 
 export interface ICategory {
   name: string,
-  notes: any[]
+  notes: INote[]
 }

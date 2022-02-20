@@ -19,7 +19,6 @@ const CardsPage = () => {
         height: "100vh"
       }}
     >
-      <FlashCard answer="answer" topic="topic" />
       <Button onClick={() => signOut(auth)}>Logout</Button>
     </main>
   )

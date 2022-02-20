@@ -4,7 +4,8 @@ import PublicLayout from "@/components/layouts/PublicLayout";
 import { ICategory } from "lib/types/category.type";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
-import { Text } from "@mantine/core";
+import { Grid, Text } from "@mantine/core";
+import FlashCard from "@/components/flashcard/FlashCard";
 interface SingleCategoryPageProps {
   
 }
@@ -19,12 +20,21 @@ const SingleCategoryPage = ({}: SingleCategoryPageProps) => {
     <>
       <Text size="lg">{(data as ICategory)?.name}</Text>
       <FlashCardInput categoryId={slug as string} />
-      {!!data && (data as ICategory).notes.map((note, idx) => {
 
-        return (
-          <p key={idx}>{JSON.stringify(note)}</p>
-        )
-      })}
+      <Grid>
+        {!!data && (data as ICategory).notes.map((note, idx) => {
+
+          return (
+            <Grid.Col
+              key={note.id}
+              md={6}
+              xl={3}
+            >
+              <FlashCard note={note} />
+            </Grid.Col>
+          )
+        })}
+      </Grid>
     </>
   );
 }

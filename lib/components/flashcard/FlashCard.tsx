@@ -1,42 +1,63 @@
-import { Container, Text } from "@mantine/core";
+import { ActionIcon, Button, Card, Container, Group, Space, Text } from "@mantine/core";
 import { useState } from "react";
 import { checkOptions } from "reactfire";
 import ReactCardFlip from 'react-card-flip'
+import { INote } from "lib/types/card.type";
+import { IoKeypad, IoMicOutline, IoRefresh } from 'react-icons/io5';
 
 interface FlashCardProps {
-  topic: string,
-  answer: string
+  note: INote
 }
 
 const FlashCard = ({
+  note
 }: FlashCardProps) => {
   const [flip, setFlip] = useState(false);
 
-  let question = "question";
-  let answer = "answer";
+  const handleAudio = async () => {
+    console.log("Handle Audio");
+  }
+
+  const handleKeypad = () => {
+    console.log("Handle Keypad");
+  }
 
   return (
-    <ReactCardFlip isFlipped={flip} flipDirection="vertical">
-      <Container 
-        className="front" 
-        onClick={() => setFlip(prev => !prev)}
-        style={{
-          visibility: flip ? "hidden" : "visible"
-        }}
-      >
-        <Text>{question}</Text>
-      </Container>
+    <>
+      <ReactCardFlip isFlipped={flip} flipDirection="vertical">
+        <Card
+          shadow="sm"
+          padding="xl"
+        >
+          <Text size="md">{note.prompt}</Text>
+          <Space h="lg" />
+          <Group position="apart">
+            <ActionIcon size="xl" radius="lg" onClick={() => handleAudio()}>
+              <IoMicOutline size={30} />
+            </ActionIcon>
+            <ActionIcon size="xl" radius="lg" onClick={() => handleKeypad()}>
+              <IoKeypad size={30} />
+            </ActionIcon>
+            <ActionIcon size="xl" radius="lg" onClick={() => setFlip(prev => !prev)}>
+              <IoRefresh size={30} />
+            </ActionIcon>
+          </Group>
+        </Card>
 
-      <Container 
-        className="back" 
-        onClick={() => setFlip(prev => !prev)}
-        style={{
-          visibility: !flip ? "hidden" : "visible"
-        }}
-      >
-        <p>{answer}</p>
-      </Container>
-    </ReactCardFlip>
+        <Card
+          shadow="sm"
+          padding="xl"
+        >
+          <Text size="md">{note.answer}</Text>
+          <Space h="lg" />
+          <Group position="right">
+            <ActionIcon size="xl" radius="lg" onClick={() => setFlip(prev => !prev)}>
+              <IoRefresh size={30} />
+            </ActionIcon>
+          </Group>
+        </Card>
+      </ReactCardFlip>
+    </>
   )
 }
 
