@@ -1,11 +1,11 @@
-import { useFirestoreDoc, useFirestoreDocData, useFirestoreDocDataOnce, useUser } from "reactfire"
+import { useFirestoreDocData, useUser } from "reactfire"
 import { db } from 'lib/firebase/init'
 import { doc } from "firebase/firestore";
-import { ICategory } from "lib/types/category.type";
 
 export const useUserCategories = () => {
   const user = useUser();
-  const userCol = doc(db, "users", user.data!.uid)
+  const userUid = !!user && !!user.data ? user.data.uid : "asdf";
+  const userCol = doc(db, "users", userUid);
 
   const { status, data } = useFirestoreDocData(
     userCol,

@@ -2,15 +2,15 @@ import {
   AppShell, 
   Header, 
   Navbar, 
-  Text, 
   Burger, 
   MediaQuery, 
   useMantineTheme,
-  Button,
   Group,
   Avatar,
+  Center,
 } from "@mantine/core";
 import { ReactNode, useState } from "react";
+import { useUser } from "reactfire";
 import RouteGuard from "../guards/RouteGuard";
 import NavAddNewButton from "../ui/NavAddNewButton";
 import NavCategoryList from "../ui/NavCategoryList";
@@ -36,8 +36,9 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 const IntermediateLayout = ({children}: {children: ReactNode}) => {
   const [opened, setOpened] = useState(false);
   const theme = useMantineTheme(); 
+  const user = useUser();
 
-  return (
+  return !!user.data ? (
     <div
       style={{ height: "100vh"}}
     >
@@ -66,19 +67,32 @@ const IntermediateLayout = ({children}: {children: ReactNode}) => {
         header={
           <Header height={70} padding="md">
             {/* Handle other responsive styles with MediaQuery component or createStyles function */}
-            <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-              <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-                <Burger
-                  opened={opened}
-                  onClick={() => setOpened((o) => !o)}
-                  size="sm"
-                  color={theme.colors.gray[6]}
-                  mr="xl"
-                />
-              </MediaQuery>
+            {/* <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}> */}
+            <Center sx={{ height: "100%" }}>
+                <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+                  <Burger
+                    opened={opened}
+                    onClick={() => setOpened((o) => !o)}
+                    size="sm"
+                    color={theme.colors.gray[6]}
+                    mr="xl"
+                  />
+                </MediaQuery>
 
-              <Text>Application header</Text>
-            </div>
+                <Group 
+                  position="right"
+                  sx={{
+                    width: "100%"
+                  }}
+                >
+                  <Avatar
+                    src="/images/logo.png"
+                    size="lg"
+                  />
+
+                </Group>
+            </Center>
+            {/* </div> */}
           </Header>
         }
       >
@@ -86,5 +100,7 @@ const IntermediateLayout = ({children}: {children: ReactNode}) => {
         {children}
       </AppShell>
     </div>
+  ) : (
+    <></>
   )
 }

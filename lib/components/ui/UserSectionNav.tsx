@@ -1,5 +1,6 @@
 import { Group, Text, Button, Avatar } from "@mantine/core";
 import { signOut } from "firebase/auth";
+import { useRouter } from "next/router";
 import { useAuth, useUser } from "reactfire";
 
 interface UserSectionNavProps {
@@ -9,6 +10,7 @@ interface UserSectionNavProps {
 const UserSectionNav = ({}: UserSectionNavProps) => {
   const auth = useAuth();
   const user = useUser();
+  const router = useRouter();
 
   return (
     <Group position="apart">
@@ -27,7 +29,10 @@ const UserSectionNav = ({}: UserSectionNavProps) => {
         color="red"
         size="xs"
         radius="sm"
-        onClick={() => signOut(auth)}
+        onClick={() => {
+          signOut(auth);
+          router.push('/');
+        }}
       >
         Logout
       </Button>

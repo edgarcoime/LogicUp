@@ -3,13 +3,15 @@ import { Container, Text } from '@mantine/core'
 import { IUser } from "lib/types/user.type";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useUser } from "reactfire";
 
 interface NavCategoryListProps {
   
 }
 
 const NavCategoryList = ({}: NavCategoryListProps) => {
-  const { data, status } = useUserCategories();
+  const user = useUser();
+  const { data } = useUserCategories();
 
   return (
     <>
@@ -17,7 +19,7 @@ const NavCategoryList = ({}: NavCategoryListProps) => {
         Categories
       </Text>
 
-      <CategoryList user={(data as IUser)}/>
+      {!!user.data && (<CategoryList user={(data as IUser)} />)}
     </>
   );
 }
