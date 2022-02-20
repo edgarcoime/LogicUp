@@ -4,13 +4,24 @@ import { Textarea } from "@mantine/core"
 import { Center } from "@mantine/core"
 import { useForm } from "@mantine/hooks"
 
+async function getKeywords<Str extends string>(anAnswer: Str) {
+    const response = await fetch("./api/openai", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({answer: anAnswer}),
+    });
+    const data = await response.json();
+    console.log(data.result);
+}
 
 const CardInput = () => {
     const form = useForm(
         {
             initialValues: {
                 prompt: '',
-                response: ''
+                answer: ''
             }
         }
     )
@@ -30,7 +41,7 @@ const CardInput = () => {
                 <h1>✨Create a Cue Card</h1>
                 <Container style={{width: "100%"}}>
 
-                <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <form onSubmit={form.onSubmit((values) => getKeywords(values.answer))}>
                     <Textarea
                         {...form.getInputProps('prompt')}
                         label="Prompt"
@@ -39,9 +50,9 @@ const CardInput = () => {
                         minRows={3}
                     />
                     <Textarea 
-                        {...form.getInputProps('response')}                        
-                        label="Response"
-                        placeholder="Your cue card response"
+                        {...form.getInputProps('answer')}                        
+                        label="Answer"
+                        placeholder="Your cue card answer"
                         required
 
                         minRows={5}
