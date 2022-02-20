@@ -13,7 +13,14 @@ async function getKeywords<Str extends string>(anAnswer: Str) {
         body: JSON.stringify({answer: anAnswer}),
     });
     const data = await response.json();
-    console.log(data.result);
+    const result = data.result[0]["text"]
+    console.log(result)
+    console.log(tokenizeKeywords(result));
+}
+
+function tokenizeKeywords(unformatted: string) {
+    const keywords = unformatted.slice(2)
+    return keywords.split(",")
 }
 
 const CardInput = () => {
