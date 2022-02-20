@@ -13,6 +13,7 @@ import {
 import { ReactNode, useState } from "react";
 import RouteGuard from "../guards/RouteGuard";
 import NavAddNewButton from "../ui/NavAddNewButton";
+import NavCategoryList from "../ui/NavCategoryList";
 import UserSectionNav from "../ui/UserSectionNav";
 import GlobalLayout from "./GlobalLayout";
 
@@ -58,7 +59,7 @@ const IntermediateLayout = ({children}: {children: ReactNode}) => {
             width={{ sm: 300, lg: 400 }}
           >
             <Navbar.Section><NavAddNewButton /></Navbar.Section>
-            <Navbar.Section grow mt="lg"><p>mid section</p></Navbar.Section>
+            <Navbar.Section grow mt="lg"><NavCategoryList /></Navbar.Section>
             <Navbar.Section><UserSectionNav /></Navbar.Section>
           </Navbar>
         }

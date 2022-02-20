@@ -44,7 +44,12 @@ const NavAddNewButton = ({}: AddNewNavProps) => {
 
       const userRef = doc(db, "users", userId);
       const updateUserRes = await updateDoc(userRef, {
-        categories: arrayUnion(categorySaveRes.id)
+        categories: arrayUnion(
+          {
+            name: newCategory,
+            id: categorySaveRes.id,
+          }
+        )
       });
 
     } catch (error) {
