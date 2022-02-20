@@ -8,7 +8,7 @@ One of the most impactful forms of studying is an increase in intensity. The shi
 
 ## Meet the Team
 - Jessica Hong
-  - Jessica is our resident designer and backend developer. She created I-Cue's logo which features Hedgar the happy brain sprout and is the mastermind behind     our study aid's concept.Thanks to Jessica's planning for the color palette, wireframes and connecting of Firebase we are able to have an application which     we are proud to show and can be used by many users.
+  - Jessica is our resident designer and backend developer. She created I-Cue's logo which features Hedgar the happy brain sprout and is the mastermind behind     our study aid's concept. Thanks to Jessica's planning for the color palette, wireframes and connecting of Firebase we are able to have an application which     we are proud to show and can be used by many users.
   - https://www.linkedin.com/in/jeessicahong/
 - Edgar Coime
   - Edgar is our system architect and full-stack developer. He is the originator of the cue card and machine learning combination which is the heart of I-       Cue. Mr. Coime is our programming polymath who knows exactly what is missing from your line of code. He implemented Jessica's wireframes and UX flow.
