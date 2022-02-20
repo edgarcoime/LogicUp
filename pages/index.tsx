@@ -46,9 +46,6 @@ const Home = () => {
       height: "100vh",
       backgroundColor: "#023047"
     }}>
-      {/* <Link href="/hello" passHref>
-        <Button component="a">Next link button</Button>
-      </Link> */}
       <Center>
         <Container size="md" padding="xl" style={{ 
           paddingTop: "2em",
@@ -56,7 +53,10 @@ const Home = () => {
           backgroundColor: "white",
           borderRadius: 5
         }}>
-          <Image width={200} height={150} src={""} withPlaceholder />
+          <Center>
+            <Image width={150} height={150} src={"images/logo.png"} withPlaceholder />
+          </Center>
+          <Space h="sm" />
           <TextInput 
             placeholder="john@placeholder.com" 
             label="Email Address" 
