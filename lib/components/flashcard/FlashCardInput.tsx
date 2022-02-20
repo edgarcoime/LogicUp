@@ -1,10 +1,12 @@
 import { Button, Center, Container, Group, Modal, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
+import { useNotifications } from "@mantine/notifications";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "lib/firebase/init";
 import { useState } from "react";
 import { useUser } from "reactfire";
 import {v4 as uuid} from "uuid";
+import { IoCheckmark, IoClose} from 'react-icons/io5'
 
 interface FlashCardInputProps {
   categoryId: string
@@ -31,10 +33,11 @@ function tokenizeKeywords(unformatted: string) {
 }
 
 const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
+  const notifications = useNotifications();
   const [ opened, setOpened ] = useState(false)
   const [submitState, setSubmitState] = useState({
     saving: false,
-    buttonText: "Submit"
+    buttonText: "Add New Card"
   })
 
   const user = useUser();
@@ -49,16 +52,24 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
   );
 
   const onSubmitHandler = async (values: {prompt: string, answer: string}) => {
-
+    // Setup submission
+    setOpened(false);
+    setSubmitState(prev => ({
+      ...prev,
+      saving: true,
+      buttonText: "Saving Document..."
+    }));
+    const id = notifications.showNotification({
+      onClose: () => console.log("unmounted"),
+      onOpen: () => console.log("mounted"),
+      title: "Saving data",
+      message: "Please wait for the document to be saved",
+      loading: true,
+      autoClose: false,
+      disallowClose: true,
+    })
     try {
-      // Setup submission
-      setSubmitState(prev => ({
-        ...prev,
-        saving: true,
-        buttonText: "Saving Document..."
-      }));
-
-      let keywords = await getKeywords(values.answer)
+      let keywords = await getKeywords(values.answer.toLocaleLowerCase())
 
       const userId = user.data?.uid;
       if (!userId) throw new Error("No UserId found");
@@ -67,6 +78,7 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
       const docSaveRes = await updateDoc(categoryRef, {
         notes: arrayUnion(
           {
+            id: uuid(),
             prompt: values.prompt,
             answer: values.answer,
             keywords: keywords,
@@ -74,16 +86,31 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
         )
       })
 
+      notifications.updateNotification(id, {
+        id,
+        color: 'teal',
+        title: "Saved!",
+        message: "Document succesfully",
+        icon: <IoCheckmark size={20} />,
+        autoClose: 3000, 
+      });
     } catch (error) {
       console.log(error);
+      notifications.updateNotification(id, {
+        id,
+        color: 'teal',
+        title: "Error!",
+        message: "An error occured while trying to save.",
+        icon: <IoClose size={20} />,
+        autoClose: 3000, 
+      });
     } finally {
       // Cleanup Submission
       setSubmitState(prev => ({
         ...prev,
         saving: false,
-        buttonText: "Submit"
-      }))
-      setOpened(false);
+        buttonText: "Add New Card"
+      }));
     }
   }
 
@@ -110,19 +137,18 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
 
             <form onSubmit={form.onSubmit((values) => onSubmitHandler(values))}>
                 <Textarea
-                    {...form.getInputProps('prompt')}
-                    label="Prompt"
-                    placeholder="Your cue card prompt"
-                    required
-                    minRows={3}
+                  {...form.getInputProps('prompt')}
+                  label="Prompt"
+                  placeholder="Your cue card prompt"
+                  required
+                  minRows={3}
                 />
                 <Textarea 
-                    {...form.getInputProps('answer')}                        
-                    label="Answer"
-                    placeholder="Your cue card answer"
-                    required
-
-                    minRows={5}
+                  {...form.getInputProps('answer')}                        
+                  label="Answer"
+                  placeholder="Your cue card answer"
+                  required
+                  minRows={5}
                 />
                 <Center
                     style={{ padding: 15 }}
@@ -144,8 +170,8 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
 
       {/* Content */}
       <Group grow>
-        <Button onClick={() => setOpened(true)}>
-          Add new Card
+        <Button onClick={() => setOpened(true)} disabled={submitState.saving}>
+          {submitState.buttonText}
         </Button>
       </Group>
     </>
