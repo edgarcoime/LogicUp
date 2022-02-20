@@ -11,9 +11,8 @@ import {
   Avatar,
 } from "@mantine/core";
 import { ReactNode, useState } from "react";
-import { useAuth, useUser } from "reactfire";
 import RouteGuard from "../guards/RouteGuard";
-import AddNewNav from "../ui/NavAddNewButton";
+import NavAddNewButton from "../ui/NavAddNewButton";
 import UserSectionNav from "../ui/UserSectionNav";
 import GlobalLayout from "./GlobalLayout";
 
@@ -58,7 +57,7 @@ const IntermediateLayout = ({children}: {children: ReactNode}) => {
             // viewport size > theme.breakpoints.lg – width is 400px
             width={{ sm: 300, lg: 400 }}
           >
-            <Navbar.Section><AddNewNav /></Navbar.Section>
+            <Navbar.Section><NavAddNewButton /></Navbar.Section>
             <Navbar.Section grow mt="lg"><p>mid section</p></Navbar.Section>
             <Navbar.Section><UserSectionNav /></Navbar.Section>
           </Navbar>

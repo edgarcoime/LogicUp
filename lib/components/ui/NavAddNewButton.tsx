@@ -1,76 +1,96 @@
-import { Button, Group } from "@mantine/core";
-import { useModals } from "@mantine/modals";
-import { useNotifications } from "@mantine/notifications";
-import { IoCheckmark, IoClose } from 'react-icons/io5';
-import { useState } from "react";
+import { Button, Group, Modal, Space, TextInput } from "@mantine/core";
+import React, { useState } from "react";
+import { useInputState } from "@mantine/hooks";
+import { useUser } from "reactfire";
+import { db } from 'lib/firebase/init'
+import { addDoc, arrayUnion, collection, doc, FieldValue, updateDoc } from "firebase/firestore";
 
 interface AddNewNavProps {
   
 }
 
-const AddNewNav = ({}: AddNewNavProps) => {
-  const modals = useModals();
-  const notifications = useNotifications();
+const NavAddNewButton = ({}: AddNewNavProps) => {
   const [submitState, setSubmitState] = useState({
-    buttonDisabled: false,
-    buttonText: ""
+    saving: false,
+    buttonText: "Submit"
   })
-  const openAddNewModal = () => {
-  }
 
-
-  const showNotifications = () => {
-    const id = notifications.showNotification({
-      id: 'hello-there',
-      onClose: () => console.log('unmounted'),
-      onOpen: () => console.log('mounted'),
-      title: "Saving Data",
-      message: "Please wait for the document to be saved",
-      // color: "pink",
-      // icon:
-      className: "my-notification-class",
-      style: { backgroundColor: 'red' },
-      loading: true,
-      autoClose: false,
-      disallowClose: true,
-    })
-    setSubmitState(prev => (
-      {
+  const [opened, setOpened] = useState(false);
+  const [newCategory, setNewCategory] = useInputState('');
+  const user = useUser();
+  
+  const submitHandler = async () => {
+    try {
+      // Setup submission
+      setSubmitState(prev => ({
         ...prev,
-        buttonDisabled: true,
-        buttonText: "Saving document..."
+        saving: true,
+        buttonText: "Saving Document..."
+      }));
+  
+      const userId = user.data?.uid;
+      console.log(user);
+      console.log(userId);
+      if (!userId) throw new Error("No UserId found");
+
+      // Save category
+      const categoryPayload = {
+        name: newCategory,
+        notes: []
       }
-    ));
 
-    // Saved data is succesful
-    setTimeout(() => {
-      notifications.updateNotification(id, {
-        id,
-        color: 'teal',
-        title: 'Saved!',
-        message: `Document succesfully saved www.google.com`,
-        icon: <IoCheckmark size={20} />,
-        autoClose: 3000,
-      })
-      setSubmitState(prev => (
-        {
-          ...prev,
-          buttonDisabled: false,
-          buttonText: "Open confirm modal"
-        }
-      ))
-    }, 3000);
+      // Save category id in user profile
+      const categorySaveRes = await addDoc(collection(db, "categories"), categoryPayload);
+
+      const userRef = doc(db, "users", userId);
+      const updateUserRes = await updateDoc(userRef, {
+        categories: arrayUnion(categorySaveRes.id)
+      });
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // Cleanup Submission
+      setNewCategory("");
+      setSubmitState(prev => ({
+        ...prev,
+        saving: false,
+        buttonText: "Submit"
+      }))
+      setOpened(false);
+    }
   }
-
-
 
   return (
-    <Group grow>
-      <Button onClick={() => console.log("Hello world!")}>
-        Add new
-      </Button>
-    </Group>
+    <>
+      <Modal
+        title="What is your new Category name?"
+        size="md"
+        opened={opened}
+        closeOnClickOutside={false}
+        hideCloseButton={submitState.saving}
+        onClose={() => setOpened(false)}
+      >
+        <TextInput
+          value={newCategory}
+          onChange={setNewCategory}
+        />
+        <Space h="md" />
+        <Button 
+          onClick={() => submitHandler()}
+          disabled={submitState.saving}
+          fullWidth
+        >
+          {submitState.buttonText}
+        </Button>
+      </Modal>
+      <Group grow>
+        <Button onClick={() => setOpened(true)}>
+          Add New Category
+        </Button>
+      </Group>
+    </>
   );
 }
 
-export default AddNewNav
+export default NavAddNewButton
