@@ -24,10 +24,7 @@ const SingleCategoryPage = ({}: SingleCategoryPageProps) => {
       <Container
         size="md"
         padding="md"
-        sx={{
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
+        m="lg"
       >
         {!!parsedCatName && (
           <Text size="xl" align="center">{capitalizeString(parsedCatName)}</Text>

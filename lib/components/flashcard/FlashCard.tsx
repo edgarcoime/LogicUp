@@ -167,7 +167,7 @@ const FlashCard = ({
           shadow="md"
           padding="xl"
         >
-          <Group position="apart" sx={{ marginBottom: "10px" }}>
+          <Group position="apart" mb="sm">
             <ActionIcon size="md" radius="xl" variant="outline" color="red"
               onClick={() => openDeleteModal(categoryId, note)}
             >
@@ -202,7 +202,7 @@ const FlashCard = ({
           shadow="md"
           padding="xl"
         >
-          <Group position="apart" sx={{ marginBottom: "10px" }}>
+          <Group position="apart" mb="sm">
             <ActionIcon size="md" radius="xl" variant="outline" color="red"
               onClick={() => openDeleteModal(categoryId, note)}
             >

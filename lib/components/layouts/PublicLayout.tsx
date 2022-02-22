@@ -60,7 +60,7 @@ const IntermediateLayout = ({children}: {children: ReactNode}) => {
             width={{ sm: 300, lg: 400 }}
           >
             <Navbar.Section><NavAddNewButton /></Navbar.Section>
-            <Navbar.Section grow mt="lg"><NavCategoryList /></Navbar.Section>
+            <Navbar.Section grow><NavCategoryList /></Navbar.Section>
             <Navbar.Section><UserSectionNav /></Navbar.Section>
           </Navbar>
         }

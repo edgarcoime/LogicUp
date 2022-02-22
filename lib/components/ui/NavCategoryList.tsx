@@ -1,14 +1,11 @@
 import { useUserCategories } from "../hooks/categoryHooks";
 import {
   ActionIcon,
-  Button,
   Container,
   Group,
-  Modal,
   Text,
 } from "@mantine/core";
 import { IUser } from "lib/types/user.type";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { useUser } from "reactfire";
 import { IoClose } from "react-icons/io5";
@@ -22,7 +19,11 @@ const NavCategoryList = ({}: NavCategoryListProps) => {
 
   return (
     <>
-      <Text size="xl" align="center" sx={{ marginBottom: "10px" }}>
+      <Text 
+        size="xl" 
+        align="center" 
+        m="lg"
+      >
         Categories
       </Text>
 
@@ -68,11 +69,7 @@ const CategoryList = ({ user }: CategoryListInterface) => {
               <Link href={`/category/${cat.id}`} passHref>
                 <Container
                   size="md"
-                  padding="sm"
-                  sx={{
-                    marginTop: "10px",
-                    marginBottom: "10px",
-                  }}
+                  my="xs"
                 >
                   <Text size="lg">{cat.name}</Text>
                 </Container>
