@@ -1,15 +1,15 @@
-import { ActionIcon, Button, Card, Container, Group, Modal, Space, Text, Textarea } from "@mantine/core";
+import { ActionIcon, Button, Card, Group, Modal, Space, Text, Textarea } from "@mantine/core";
 import { useState } from "react";
-import { checkOptions } from "reactfire";
 import ReactCardFlip from 'react-card-flip'
 import { INote } from "lib/types/card.type";
-import { IoKeypad, IoMicOutline, IoRefresh, IoCheckmarkDone, IoAlert, IoClose } from 'react-icons/io5';
+import { IoKeypad, IoMicOutline, IoRefresh } from 'react-icons/io5';
 import { useInputState } from "@mantine/hooks";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "lib/firebase/init";
 import { getMatchPercentage } from "lib/functions/comparePrompts";
 import { useNotifications } from "@mantine/notifications";
-import { useModals } from "@mantine/modals";
+import FlashCardOptions from "./FlashCardOptions";
+import FlashCardComprehension from "./FlashCardComprehension";
 
 interface FlashCardProps {
   note: INote
@@ -20,7 +20,6 @@ const FlashCard = ({
   note,
   categoryId
 }: FlashCardProps) => {
-  const modal = useModals();
   const [promptAnswer, setPromptAnswer] = useInputState('');
   const notifications = useNotifications();
 
@@ -30,27 +29,6 @@ const FlashCard = ({
     saving: false,
     buttonText: "Submit"
   })
-
-  const deleteHandler = (categoryId: string, note: INote) => {
-
-  }
-
-  const openDeleteModal = (categoryId: string, note: INote) => {
-    modal.openConfirmModal({
-      title: "Delete this note",
-      centered: true,
-      children: (
-        <Text size="sm">
-          Are you sure you want to delete this note? This action
-          is destructive and you will have to contact support to restore your data.
-        </Text>
-      ),
-      labels: { confirm: "Delete note", cancel: "No don't delete it!"},
-      confirmProps: { color: "red" },
-      onCancel: () => { console.log("Cancel")},
-      onConfirm: () => deleteHandler(categoryId, note),
-    })
-  }
 
   const handleAudio = async () => {
     console.log("Handle Audio");
@@ -168,20 +146,8 @@ const FlashCard = ({
           padding="xl"
         >
           <Group position="apart" mb="sm">
-            <ActionIcon size="md" radius="xl" variant="outline" color="red"
-              onClick={() => openDeleteModal(categoryId, note)}
-            >
-              <IoClose size={20} />
-            </ActionIcon>
-            {note.fullyUnderstand ? (
-              <ActionIcon size="md" radius="xl" variant="light" color="green">
-                <IoCheckmarkDone size={20} />
-              </ActionIcon>
-            ) : (
-              <ActionIcon size="md" radius="xl" variant="light" color="yellow">
-                <IoAlert size={20} />
-              </ActionIcon>
-            )}
+            <FlashCardOptions categoryId={categoryId} note={note}/>
+            <FlashCardComprehension note={note} />
           </Group>
           <Text size="md">{note.prompt}</Text>
           <Space h="lg" />
@@ -203,20 +169,8 @@ const FlashCard = ({
           padding="xl"
         >
           <Group position="apart" mb="sm">
-            <ActionIcon size="md" radius="xl" variant="outline" color="red"
-              onClick={() => openDeleteModal(categoryId, note)}
-            >
-              <IoClose size={20} />
-            </ActionIcon>
-            {note.fullyUnderstand ? (
-              <ActionIcon size="md" radius="xl" variant="light" color="green">
-                <IoCheckmarkDone size={20} />
-              </ActionIcon>
-            ) : (
-              <ActionIcon size="md" radius="xl" variant="light" color="yellow">
-                <IoAlert size={20} />
-              </ActionIcon>
-            )}
+            <FlashCardOptions categoryId={categoryId} note={note}/>
+            <FlashCardComprehension note={note} />
           </Group>
           <Text size="md">{note.answer}</Text>
           <Space h="lg" />

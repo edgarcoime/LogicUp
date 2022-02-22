@@ -122,7 +122,6 @@ const FlashCardInput = ({ categoryId }: FlashCardInputProps) => {
       <Modal
         size="lg"
         opened={opened}
-        closeOnClickOutside={false}
         onClose={() => setOpened(false)}
       >
         <Container

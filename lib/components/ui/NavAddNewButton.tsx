@@ -72,7 +72,6 @@ const NavAddNewButton = ({}: AddNewNavProps) => {
         title="What is your new Category name?"
         size="md"
         opened={opened}
-        closeOnClickOutside={false}
         hideCloseButton={submitState.saving}
         onClose={() => setOpened(false)}
       >

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useUser } from "reactfire";
 import { IoClose } from "react-icons/io5";
 import { useModals } from "@mantine/modals";
+import CategoryOptions from "../category/CategoryOptions";
 
 interface NavCategoryListProps {}
 
@@ -37,29 +38,6 @@ interface CategoryListInterface {
 }
 
 const CategoryList = ({ user }: CategoryListInterface) => {
-  const modal = useModals();
-  const deleteHandler = (id: string) => {
-    console.log("delete");
-    console.log(id);
-  };
-
-  const openDeleteModal = (categoryName: string, categoryId: string) => {
-    modal.openConfirmModal({
-      title: "Delete this category",
-      centered: true,
-      children: (
-        <Text size="sm">
-          Are you sure you want to delete this category named {categoryName}. This action
-          is destructive and you will have to contact support to restore your data.
-        </Text>
-      ),
-      labels: { confirm: "Delete category", cancel: "No don't delete it!"},
-      confirmProps: { color: "red" },
-      onCancel: () => { console.log("Cancel")},
-      onConfirm: () => deleteHandler(categoryId)
-    })
-  }
-
   return !!user ? (
     <>
       {user.categories.map((cat) => {
@@ -74,15 +52,7 @@ const CategoryList = ({ user }: CategoryListInterface) => {
                   <Text size="lg">{cat.name}</Text>
                 </Container>
               </Link>
-              <ActionIcon
-                size="md"
-                radius="xl"
-                variant="light"
-                color="red"
-                onClick={() => openDeleteModal(cat.name, cat.id)}
-              >
-                <IoClose size={20} />
-              </ActionIcon>
+              <CategoryOptions categoryId={cat.id} categoryName={cat.name} />
             </Group>
           </div>
         );
